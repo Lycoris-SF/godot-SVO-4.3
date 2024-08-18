@@ -1,0 +1,405 @@
+[gd_scene format=3 uid="uid://dl62onsxiiy0k"]
+
+[node name="SvoPlugin" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer Rebuild" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+
+[node name="Rebuild Button" type="Button" parent="HBoxContainer Rebuild"]
+custom_minimum_size = Vector2(200, 35)
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Rebuild SVO
+"
+
+[node name="Refresh Button" type="Button" parent="HBoxContainer Rebuild"]
+custom_minimum_size = Vector2(200, 35)
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Refresh SVO
+"
+
+[node name="HBoxContainer Clear" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+
+[node name="ClearAll Button" type="Button" parent="HBoxContainer Clear"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_hover_color = Color(0.498039, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(1, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0.784314, 0, 0, 1)
+theme_override_colors/font_color = Color(0.784314, 0, 0, 1)
+text = "Clear All"
+
+[node name="Clear Button" type="Button" parent="HBoxContainer Clear"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_colors/font_hover_color = Color(0.498039, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(1, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0.784314, 0, 0, 1)
+theme_override_colors/font_color = Color(0.784314, 0, 0, 1)
+text = "Clear SVO
+"
+
+[node name="HBoxContainer Connector" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+
+[node name="Generate Connector" type="Button" parent="HBoxContainer Connector"]
+custom_minimum_size = Vector2(200, 35)
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Generate Connector
+"
+
+[node name="Clear Connector" type="Button" parent="HBoxContainer Connector"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_colors/font_hover_color = Color(0.498039, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(1, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0.784314, 0, 0, 1)
+theme_override_colors/font_color = Color(0.784314, 0, 0, 1)
+text = "Clear Connector
+"
+
+[node name="VBoxContainer_Insert" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="HBoxContainer_Button" type="HBoxContainer" parent="VBoxContainer_Insert"]
+layout_mode = 2
+
+[node name="PopupMenu" type="PopupMenu" parent="VBoxContainer_Insert/HBoxContainer_Button"]
+item_count = 2
+item_0/text = "Copy"
+item_1/text = "Paste"
+item_1/id = 1
+
+[node name="Label P" type="Label" parent="VBoxContainer_Insert/HBoxContainer_Button"]
+layout_mode = 2
+text = "Position: "
+
+[node name="Insert Button" type="Button" parent="VBoxContainer_Insert/HBoxContainer_Button"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Insert"
+
+[node name="HBoxContainer_Value" type="HBoxContainer" parent="VBoxContainer_Insert"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+
+[node name="LabelX" type="Label" parent="VBoxContainer_Insert/HBoxContainer_Value"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.717199, 2.05759e-06, 3.85046e-07, 1)
+text = "X"
+vertical_alignment = 1
+
+[node name="SpinBoxX" type="SpinBox" parent="VBoxContainer_Insert/HBoxContainer_Value"]
+layout_mode = 2
+step = 0.0
+allow_greater = true
+allow_lesser = true
+suffix = "px"
+custom_arrow_step = 1.0
+
+[node name="LabelY" type="Label" parent="VBoxContainer_Insert/HBoxContainer_Value"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.501961, 0, 1)
+text = "Y"
+vertical_alignment = 1
+
+[node name="SpinBoxY" type="SpinBox" parent="VBoxContainer_Insert/HBoxContainer_Value"]
+layout_mode = 2
+step = 0.0
+allow_greater = true
+allow_lesser = true
+suffix = "px"
+custom_arrow_step = 1.0
+
+[node name="LabelZ" type="Label" parent="VBoxContainer_Insert/HBoxContainer_Value"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0.882353, 1)
+text = "Z"
+vertical_alignment = 1
+
+[node name="SpinBoxZ" type="SpinBox" parent="VBoxContainer_Insert/HBoxContainer_Value"]
+layout_mode = 2
+step = 0.0
+allow_greater = true
+allow_lesser = true
+suffix = "px"
+custom_arrow_step = 1.0
+
+[node name="HBoxContainer Update" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+
+[node name="LabelX" type="Label" parent="HBoxContainer Update"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.717199, 2.05759e-06, 3.85046e-07, 1)
+text = "X"
+vertical_alignment = 1
+
+[node name="SpinBoxX" type="SpinBox" parent="HBoxContainer Update"]
+layout_mode = 2
+step = 0.0
+allow_greater = true
+allow_lesser = true
+suffix = "px"
+custom_arrow_step = 1.0
+
+[node name="LabelY" type="Label" parent="HBoxContainer Update"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.501961, 0, 1)
+text = "Y"
+vertical_alignment = 1
+
+[node name="SpinBoxY" type="SpinBox" parent="HBoxContainer Update"]
+layout_mode = 2
+step = 0.0
+allow_greater = true
+allow_lesser = true
+suffix = "px"
+custom_arrow_step = 1.0
+
+[node name="LabelZ" type="Label" parent="HBoxContainer Update"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0.882353, 1)
+text = "Z"
+vertical_alignment = 1
+
+[node name="SpinBoxZ" type="SpinBox" parent="HBoxContainer Update"]
+layout_mode = 2
+step = 0.0
+allow_greater = true
+allow_lesser = true
+suffix = "px"
+custom_arrow_step = 1.0
+
+[node name="Update Button" type="Button" parent="HBoxContainer Update"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+text = "Update"
+
+[node name="CheckBox" type="CheckBox" parent="HBoxContainer Update"]
+layout_mode = 2
+
+[node name="HBoxContainer Query" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+
+[node name="LabelX" type="Label" parent="HBoxContainer Query"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.717199, 2.05759e-06, 3.85046e-07, 1)
+text = "X"
+vertical_alignment = 1
+
+[node name="SpinBoxX" type="SpinBox" parent="HBoxContainer Query"]
+layout_mode = 2
+step = 0.0
+allow_greater = true
+allow_lesser = true
+suffix = "px"
+custom_arrow_step = 1.0
+
+[node name="LabelY" type="Label" parent="HBoxContainer Query"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.501961, 0, 1)
+text = "Y"
+vertical_alignment = 1
+
+[node name="SpinBoxY" type="SpinBox" parent="HBoxContainer Query"]
+layout_mode = 2
+step = 0.0
+allow_greater = true
+allow_lesser = true
+suffix = "px"
+custom_arrow_step = 1.0
+
+[node name="LabelZ" type="Label" parent="HBoxContainer Query"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0.882353, 1)
+text = "Z"
+vertical_alignment = 1
+
+[node name="SpinBoxZ" type="SpinBox" parent="HBoxContainer Query"]
+layout_mode = 2
+step = 0.0
+allow_greater = true
+allow_lesser = true
+suffix = "px"
+custom_arrow_step = 1.0
+
+[node name="Query Button" type="Button" parent="HBoxContainer Query"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+text = "Query"
+
+[node name="HBoxContainer ID Query" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+
+[node name="Label ID" type="Label" parent="HBoxContainer ID Query"]
+layout_mode = 2
+text = "ID"
+vertical_alignment = 1
+
+[node name="LineEdit ID" type="LineEdit" parent="HBoxContainer ID Query"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+placeholder_text = "0"
+max_length = 9
+clear_button_enabled = true
+
+[node name="Check Voxel Info Button" type="Button" parent="HBoxContainer ID Query"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+text = "Check"
+
+[node name="Find Rand Path Button" type="Button" parent="HBoxContainer ID Query"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Rand Path"
+
+[node name="HBoxContainer Path Start" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+
+[node name="LabelX" type="Label" parent="HBoxContainer Path Start"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.717199, 2.05759e-06, 3.85046e-07, 1)
+text = "X"
+vertical_alignment = 1
+
+[node name="SpinBoxX" type="SpinBox" parent="HBoxContainer Path Start"]
+layout_mode = 2
+step = 0.0
+allow_greater = true
+allow_lesser = true
+suffix = "px"
+custom_arrow_step = 1.0
+
+[node name="LabelY" type="Label" parent="HBoxContainer Path Start"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.501961, 0, 1)
+text = "Y"
+vertical_alignment = 1
+
+[node name="SpinBoxY" type="SpinBox" parent="HBoxContainer Path Start"]
+layout_mode = 2
+step = 0.0
+allow_greater = true
+allow_lesser = true
+suffix = "px"
+custom_arrow_step = 1.0
+
+[node name="LabelZ" type="Label" parent="HBoxContainer Path Start"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0.882353, 1)
+text = "Z"
+vertical_alignment = 1
+
+[node name="SpinBoxZ" type="SpinBox" parent="HBoxContainer Path Start"]
+layout_mode = 2
+step = 0.0
+allow_greater = true
+allow_lesser = true
+suffix = "px"
+custom_arrow_step = 1.0
+
+[node name="LabelR" type="Label" parent="HBoxContainer Path Start"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.501961, 0, 1)
+text = "R"
+vertical_alignment = 1
+
+[node name="SpinBoxR" type="SpinBox" parent="HBoxContainer Path Start"]
+layout_mode = 2
+step = 0.0
+allow_greater = true
+suffix = "px"
+custom_arrow_step = 1.0
+
+[node name="HBoxContainer Path End" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+
+[node name="LabelX" type="Label" parent="HBoxContainer Path End"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.717199, 2.05759e-06, 3.85046e-07, 1)
+text = "X"
+vertical_alignment = 1
+
+[node name="SpinBoxX" type="SpinBox" parent="HBoxContainer Path End"]
+layout_mode = 2
+step = 0.0
+allow_greater = true
+allow_lesser = true
+suffix = "px"
+custom_arrow_step = 1.0
+
+[node name="LabelY" type="Label" parent="HBoxContainer Path End"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.501961, 0, 1)
+text = "Y"
+vertical_alignment = 1
+
+[node name="SpinBoxY" type="SpinBox" parent="HBoxContainer Path End"]
+layout_mode = 2
+step = 0.0
+allow_greater = true
+allow_lesser = true
+suffix = "px"
+custom_arrow_step = 1.0
+
+[node name="LabelZ" type="Label" parent="HBoxContainer Path End"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0.882353, 1)
+text = "Z"
+vertical_alignment = 1
+
+[node name="SpinBoxZ" type="SpinBox" parent="HBoxContainer Path End"]
+layout_mode = 2
+step = 0.0
+allow_greater = true
+allow_lesser = true
+suffix = "px"
+custom_arrow_step = 1.0
+
+[node name="Find Path Button" type="Button" parent="HBoxContainer Path End"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+text = "Path"
+
+[node name="Label Smooth" type="Label" parent="HBoxContainer Path End"]
+layout_mode = 2
+text = "SP"
+vertical_alignment = 1
+
+[node name="CheckBox" type="CheckBox" parent="HBoxContainer Path End"]
+layout_mode = 2
+button_pressed = true
+
+[node name="HBoxContainer Manager" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label M" type="Label" parent="HBoxContainer Manager"]
+layout_mode = 2
+text = "SVO_Manager:"
+
+[node name="Tidy Button" type="Button" parent="HBoxContainer Manager"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Tidy Adjacents"

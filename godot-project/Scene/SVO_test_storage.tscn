@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://bsy8lsyoxkmmq"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_tpdt6"]
+radius = 1.0
+height = 2.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_x17qd"]
+radius = 1.0
+
+[node name="Node3D" type="Node3D"]
+
+[node name="TestBox" type="Node3D" parent="."]
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="TestBox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
+mesh = SubResource("SphereMesh_tpdt6")
+
+[node name="StaticBody3D2" type="StaticBody3D" parent="TestBox/MeshInstance3D2"]
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="TestBox/MeshInstance3D2/StaticBody3D2"]
+shape = SubResource("SphereShape3D_x17qd")
+
+[node name="SvoNavmesh_storage" type="SvoNavmap" parent="TestBox"]
+debug_mode = true
+max_depth = 5
+DrawRef_maxDepth = 5
