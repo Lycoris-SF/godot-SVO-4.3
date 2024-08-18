@@ -86,7 +86,9 @@ void SvoNavmap::_bind_methods() {
 
     // generate svo from collider
     ClassDB::bind_method(D_METHOD("insert_svo_based_on_collision_shapes"), &SvoNavmap::insert_svo_based_on_collision_shapes);
-
+    // multi-thread test
+    ClassDB::bind_method(D_METHOD("traverse_svo_space_and_insert_MTT","node_index","depth"), &SvoNavmap::traverse_svo_space_and_insert_MTT);
+    
     // path finding
     ClassDB::bind_method(D_METHOD("find_path", "start", "end", "agent_r", "is_smooth"), &SvoNavmap::find_path_v2);
     // path finding multi thread
@@ -101,9 +103,11 @@ void SvoNavmap::_bind_methods() {
 SvoNavmap::SvoNavmap(): 
     maxDepth(3), rootVoxelSize(1.0f), minVoxelSize(0.25f), testdouble(1.14f), debug_mode(false), collision_layer(5),
     debug_path_scale(1.0f), node_ready(false), DrawRef_minDepth(1), DrawRef_maxDepth(3), show_empty(true), 
-    show_path(true), debugChecked_node(nullptr), outer_connector(), inner_connector()
+    show_path(true), debugChecked_node(nullptr), outer_connector(), inner_connector(), space_state(nullptr),
+    task_build_trigger(false)
 {
     svo = memnew(SparseVoxelOctree);
+    mutex.instantiate();
 }
 SvoNavmap::~SvoNavmap() {
     //call_deferred("reset_pool");
@@ -154,7 +158,7 @@ static const int childDirectionMap[6][4] = {
  * @returns The position in local coordinates of svo.
  */
 Vector3 SvoNavmap::worldToGrid(Vector3 world_position) {
-    Transform3D global_transform = get_global_transform();
+    //Transform3D global_transform = get_global_transform();
 
     // Remove scaling: Normalize the columns of the rotation matrix
     // 移除缩放：将旋转矩阵的列向量归一化
@@ -171,7 +175,7 @@ Vector3 SvoNavmap::worldToGrid(Vector3 world_position) {
     return local_position; // Convert to grid coordinates; 转换到网格坐标
 }
 Vector3 SvoNavmap::gridToWorld(Vector3 grid_position) {
-    Transform3D global_transform = get_global_transform();
+    //Transform3D global_transform = get_global_transform();
 
     // Remove scaling: Normalize the columns of the rotation matrix
     // 移除缩放：将旋转矩阵的列向量归一化
@@ -437,22 +441,20 @@ void SvoNavmap::rebuild_svo() {
     svo->last_transform = get_global_transform();
 
     if (debug_mode) {
-        //reset_pool();
         reset_pool_v3();
         svo->clear();
         clear_connector();
 
         insert_svo_based_on_collision_shapes();
-        //init_debug_mesh(svo->root, 1);
-        init_debug_mesh_v3();
-        init_neighbors();
+        //init_debug_mesh_v3();
+        //init_neighbors();
     }
     else {
         svo->clear();
         clear_connector();
 
-        insert_svo_based_on_collision_shapes();
-        init_neighbors();
+        //insert_svo_based_on_collision_shapes();
+        //init_neighbors();
     }
 }
 
@@ -611,7 +613,8 @@ void SvoNavmap::insert_svo_based_on_collision_shapes() {
     if (parent_node != nullptr) {
         collect_collision_shapes(parent_node);
     }
-    traverse_svo_space_and_insert(svo->root, 1);
+    //traverse_svo_space_and_insert(svo->root, 1);
+    task_build_trigger = true;
 
     uint64_t end = Time::get_singleton()->get_ticks_msec();
     UtilityFunctions::print(vformat("insert svo nodes with %d milliseconds", end - begin));
@@ -661,7 +664,7 @@ bool SvoNavmap::check_point_inside_mesh(Vector3 point) {
  */
 bool SvoNavmap::check_box_intersect_mesh(Vector3 position, Quaternion rotation, float size) {
     // Get the PhysicsDirectSpaceState3D instance
-    PhysicsDirectSpaceState3D* space_state = PhysicsServer3D::get_singleton()->space_get_direct_state(this->get_world_3d()->get_space());
+    //PhysicsDirectSpaceState3D* space_state = PhysicsServer3D::get_singleton()->space_get_direct_state(this->get_world_3d()->get_space());
     if (!space_state) {
         ERR_PRINT_ED("Failed to get PhysicsDirectSpaceState3D instance");
         return false;
@@ -801,22 +804,68 @@ void SvoNavmap::traverse_svo_space_and_insert(OctreeNode* node, int depth) {
         return;
     }
 
-    if (check_box_intersect_mesh(gridToWorld(node->center), get_global_rotation(), node->voxel->size)) {
+    if (check_box_intersect_mesh(gridToWorld(node->center), global_rotation, node->voxel->size)) {
         if (depth == maxDepth) {
+            mutex->lock();
             node->voxel->state = VS_SOLID;
             node->isLeaf = true;
+            mutex->unlock();
         }
         else {
+            mutex->lock();
             node->voxel->state = VS_LIQUID;
             if (node->children[0] == nullptr) {
                 svo->create_empty_children(node, depth);
             }
+            mutex->unlock();
 
             for (int i = 0; i < 8; ++i) {
                 traverse_svo_space_and_insert(node->children[i], depth + 1);
             }
+            mutex->lock();
             svo->evaluate_homogeneity(node);
+            mutex->unlock();
         }
+    }
+}
+void SvoNavmap::traverse_svo_space_and_insert_MTT(int node_index, int depth) {
+    if (depth > maxDepth) {
+        return;
+    }
+
+    OctreeNode* node;
+    if (node_index == -1) node = svo->root;
+    else node = svo->root->children[node_index];
+
+    if (check_box_intersect_mesh(gridToWorld(node->center), global_rotation, node->voxel->size)) {
+        if (depth == maxDepth) {
+            mutex->lock();
+            node->voxel->state = VS_SOLID;
+            node->isLeaf = true;
+            mutex->unlock();
+        }
+        else {
+            mutex->lock();
+            node->voxel->state = VS_LIQUID;
+            if (node->children[0] == nullptr) {
+                svo->create_empty_children(node, depth);
+            }
+            mutex->unlock();
+
+            for (int i = 0; i < 8; ++i) {
+                traverse_svo_space_and_insert(node->children[i], depth + 1);
+            }
+            mutex->lock();
+            svo->evaluate_homogeneity(node);
+            mutex->unlock();
+        }
+    }
+
+    if (node_index == -1) {
+        coroutine_checker = true;
+    }
+    else {
+        threads_checker[node_index] = true;
     }
 }
 
@@ -865,8 +914,67 @@ void SvoNavmap::_process(double delta) {
 }
 void SvoNavmap::_physics_process(double delta)
 {
-
+    if (task_build_trigger) traverse_svo_space_and_insert();
+    checkAndResetCoroutine();
+    checkAndResetThreads();
 }
+
+bool SvoNavmap::checkAndResetCoroutine() {
+    if (!coroutine_checker) {
+        return false;
+    }
+    coroutine_checker = false;
+    threads[0]->wait_to_finish();
+
+    if (debug_mode) init_debug_mesh_v3();
+    init_neighbors();
+
+    return true;
+}
+bool SvoNavmap::checkAndResetThreads() {
+    for (int i = 0; i < 8; i++) {
+        if (!threads_checker[i]) {
+            return false;  
+        }
+    }
+
+    for (int i = 0; i < 8; i++) {
+        threads_checker[i] = false;  
+        threads[i]->wait_to_finish();
+    }
+
+    if (debug_mode) init_debug_mesh_v3();
+    init_neighbors();
+
+    return true;  
+}
+
+void SvoNavmap::traverse_svo_space_and_insert() {
+    space_state = PhysicsServer3D::get_singleton()->space_get_direct_state(this->get_world_3d()->get_space());
+    global_transform = get_global_transform();
+    global_rotation = get_global_rotation();
+    bool test = true;
+    if (test) {
+        Ref<Thread> thread;
+        coroutine_checker = false;
+        thread.instantiate();
+        threads.push_back(thread);
+        Callable callable = Callable(this, "traverse_svo_space_and_insert_MTT").bind(-1, 1);
+        threads[0]->start(callable);
+    }
+    else {
+        for (int i = 0; i < 8; i++) {
+            Ref<Thread> thread;
+            threads_checker[i] = false;
+            thread.instantiate();
+            threads.push_back(thread);
+            Callable callable = Callable(this, "traverse_svo_space_and_insert_MTT").bind(i, 2);
+            threads[i]->start(callable);
+        }
+    }
+    task_build_trigger = false;
+}
+
 static void init_static_material()
 {
     // debug draw

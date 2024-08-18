@@ -28,13 +28,13 @@
 #include <godot_cpp/classes/standard_material3d.hpp>
 #include <godot_cpp/classes/shader_material.hpp>
 
-/*// Multi thread
+// Multi thread
 #include <godot_cpp/classes/mutex.hpp>
 #include <godot_cpp/classes/semaphore.hpp>
 #include <godot_cpp/classes/thread.hpp>
 #include <godot_cpp/classes/worker_thread_pool.hpp>
 #include <godot_cpp/classes/timer.hpp>
-#include <godot_cpp/core/binder_common.hpp>*/
+#include <godot_cpp/core/binder_common.hpp>
 
 #include "svo_structure.h"
 #include "svo_connector.h"
@@ -67,6 +67,15 @@ namespace godot {
         float minVoxelSize;     // size of the smallest cube
         double testdouble;
         int collision_layer;    // Manual sync required
+
+        // multi-thread test
+        Ref<Mutex> mutex;
+        Vector<Ref<Thread>> threads;
+        bool threads_checker[8] = { false };
+        bool coroutine_checker = false;
+        PhysicsDirectSpaceState3D* space_state;
+        Transform3D global_transform;
+        Vector3 global_rotation;
 
         // <debug draw>
         bool debug_mode;
@@ -123,6 +132,13 @@ namespace godot {
         void collect_collision_shapes(Node* node);
         void traverse_svo_space_and_insert(OctreeNode* node, int depth);
         Vector<Vector3> calculate_connector_points();
+
+        // physics tasks
+        bool task_build_trigger;
+        bool checkAndResetThreads();
+        bool checkAndResetCoroutine();
+        void traverse_svo_space_and_insert_MTT(int node_index, int depth);
+        void traverse_svo_space_and_insert();
 
         // neighbors
         void init_neighbors();
