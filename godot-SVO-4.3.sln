@@ -7,20 +7,26 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "godot-SVO-4.3", "godot-SVO-
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|x64 = Debug|x64
-		Debug|x86 = Debug|x86
-		Release|x64 = Release|x64
-		Release|x86 = Release|x86
+		GD_debug|x64 = GD_debug|x64
+		GD_debug|x86 = GD_debug|x86
+		GD_dev|x64 = GD_dev|x64
+		GD_dev|x86 = GD_dev|x86
+		GD_game|x64 = GD_game|x64
+		GD_game|x86 = GD_game|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AADA436A-BBE1-4B52-912C-278AF7560C85}.Debug|x64.ActiveCfg = Debug|x64
-		{AADA436A-BBE1-4B52-912C-278AF7560C85}.Debug|x64.Build.0 = Debug|x64
-		{AADA436A-BBE1-4B52-912C-278AF7560C85}.Debug|x86.ActiveCfg = Debug|Win32
-		{AADA436A-BBE1-4B52-912C-278AF7560C85}.Debug|x86.Build.0 = Debug|Win32
-		{AADA436A-BBE1-4B52-912C-278AF7560C85}.Release|x64.ActiveCfg = Release|x64
-		{AADA436A-BBE1-4B52-912C-278AF7560C85}.Release|x64.Build.0 = Release|x64
-		{AADA436A-BBE1-4B52-912C-278AF7560C85}.Release|x86.ActiveCfg = Release|Win32
-		{AADA436A-BBE1-4B52-912C-278AF7560C85}.Release|x86.Build.0 = Release|Win32
+		{AADA436A-BBE1-4B52-912C-278AF7560C85}.GD_debug|x64.ActiveCfg = Debug|x64
+		{AADA436A-BBE1-4B52-912C-278AF7560C85}.GD_debug|x64.Build.0 = Debug|x64
+		{AADA436A-BBE1-4B52-912C-278AF7560C85}.GD_debug|x86.ActiveCfg = Debug|Win32
+		{AADA436A-BBE1-4B52-912C-278AF7560C85}.GD_debug|x86.Build.0 = Debug|Win32
+		{AADA436A-BBE1-4B52-912C-278AF7560C85}.GD_dev|x64.ActiveCfg = Dev|x64
+		{AADA436A-BBE1-4B52-912C-278AF7560C85}.GD_dev|x64.Build.0 = Dev|x64
+		{AADA436A-BBE1-4B52-912C-278AF7560C85}.GD_dev|x86.ActiveCfg = Dev|Win32
+		{AADA436A-BBE1-4B52-912C-278AF7560C85}.GD_dev|x86.Build.0 = Dev|Win32
+		{AADA436A-BBE1-4B52-912C-278AF7560C85}.GD_game|x64.ActiveCfg = Game|x64
+		{AADA436A-BBE1-4B52-912C-278AF7560C85}.GD_game|x64.Build.0 = Game|x64
+		{AADA436A-BBE1-4B52-912C-278AF7560C85}.GD_game|x86.ActiveCfg = Game|Win32
+		{AADA436A-BBE1-4B52-912C-278AF7560C85}.GD_game|x86.Build.0 = Game|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

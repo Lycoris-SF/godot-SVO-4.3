@@ -5,5 +5,5 @@ compatibility_minimum = 4.1
 
 [libraries]
 
-windows.debug.x86_64 = "res://bin/libgdexample.windows.template_debug.x86_64.dll"
-windows.release.x86_64 = "res://bin/libgdexample.windows.template_debug.x86_64.dll"
+windows.debug.x86_64 = "res://bin/godot-SVO-4.3.dll"
+windows.release.x86_64 = "res://bin/godot-SVO-4.3.dll"
